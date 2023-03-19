@@ -1,10 +1,10 @@
-package com.example.mission3;
+package com.dayone;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class Mission3ApplicationTests {
+class ApplicationTests {
 
     @Test
     void contextLoads() {

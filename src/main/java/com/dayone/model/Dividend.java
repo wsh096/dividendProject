@@ -1,4 +1,4 @@
-package com.example.mission3.model;
+package com.dayone.model;
 
 import lombok.Builder;
 import lombok.Data;

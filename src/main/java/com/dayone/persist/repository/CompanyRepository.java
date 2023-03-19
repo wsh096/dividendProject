@@ -1,9 +1,10 @@
-package com.example.mission3.persist.repository;
+package com.dayone.persist.repository;
 
-import com.example.mission3.persist.entity.CompanyEntity;
+import com.dayone.persist.entity.CompanyEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CompanyRepository extends JpaRepository<CompanyEntity, Long> {
+    boolean existsByTicker(String ticker);
 }

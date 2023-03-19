@@ -1,6 +1,4 @@
-package com.example.mission3.model.constants;
-
-import lombok.var;
+package com.dayone.model.constants;
 
 public enum Month {
     JAN("Jan",1),
