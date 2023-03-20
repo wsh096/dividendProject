@@ -32,6 +32,7 @@ public class CacheConfig {
                 .serializeValuesWith(RedisSerializationContext
                         .SerializationPair
                         .fromSerializer(new GenericJackson2JsonRedisSerializer()));
+                //.entryTtl(D); 한 번 구현해 보자 TTL
 
         return RedisCacheManager.RedisCacheManagerBuilder
                 .fromConnectionFactory(redisConnectionFactory)

@@ -8,18 +8,25 @@ import com.dayone.persist.repository.CompanyRepository;
 import com.dayone.persist.repository.DividendRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+
+import static com.dayone.model.constants.CacheKey.KEY_FINANCE;
+
 @Slf4j // logging
 @Component
+@EnableCaching
 @AllArgsConstructor //repository 초기화를 목적으로 함
 public class ScraperScheduler {
     private final CompanyRepository companyRepository;
     private final DividendRepository dividendRepository;
     private final Scraper yahooFinanceScraper;
 
+    @CacheEvict(value = KEY_FINANCE,allEntries = true)//모든 값 지우는 걸로
     @Scheduled(cron = "${scheduler.scrap.yahoo}") // 배당금 정보가 중복으로 저장되는 것 막아주기
     public void yahooFinanceScheduling() {
         log.info("scraping scheduler is started");
@@ -30,8 +37,8 @@ public class ScraperScheduler {
         for (var company : companies) {
             log.info("scraping scheduler is started -> " + company.getName());
             this.yahooFinanceScraper.scrap(new Company(
-                    company.getName(),
-                    company.getTicker()))
+                            company.getName(),
+                            company.getTicker()))
                     .getDividends()
                     .stream()
                     //dividend model -> dividend entity mapping
@@ -40,7 +47,7 @@ public class ScraperScheduler {
                     .forEach(e -> {
                         boolean exists = this.dividendRepository.existsByCompanyIdAndDate(
                                 e.getCompanyId(), e.getDate());
-                        if(!exists){
+                        if (!exists) {
                             this.dividendRepository.save(e);
                         }
                     });

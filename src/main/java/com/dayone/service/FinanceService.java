@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.dayone.model.constants.CacheKey.KEY_FINANCE;
+
 @Service
 @AllArgsConstructor
 public class FinanceService {
@@ -24,7 +26,7 @@ public class FinanceService {
 
     //요청이 자주 들어오는가?
     //자주 변경되는 데이터인가? //cahce 적합성 판단을 위한 질문들
-    @Cacheable(key = "#companyName", value = "finance")
+    @Cacheable(key = "#companyName", value = KEY_FINANCE)
     public ScrapedResult getDividendByCompanyName(String companyName) {
         //1. 회사명을 기준으로 회사 정보를 조회
         CompanyEntity company = this.companyRepository.findByName(companyName)
