@@ -8,6 +8,7 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
+
 public class ScrapedResult {
     private Company company;
     private List<Dividend> dividends;
