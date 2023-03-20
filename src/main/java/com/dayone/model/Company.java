@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor //여기 빌더 쓰면 에러남
-@Builder
+
 public class Company {
  private String ticker;
  private String name;
