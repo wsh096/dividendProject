@@ -8,6 +8,7 @@ import com.dayone.persist.repository.CompanyRepository;
 import com.dayone.persist.repository.DividendRepository;
 import com.dayone.Scraper.Scraper;
 import lombok.AllArgsConstructor;
+import org.apache.commons.collections4.Trie;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class CompanyService {
+    private final Trie trie;
     private final Scraper yahooFinanceScraper;
     private final CompanyRepository companyRepository;
     private final DividendRepository dividendRepository;
@@ -53,5 +55,20 @@ public class CompanyService {
                 .collect(Collectors.toList());
         this.dividendRepository.saveAll(dividendEntities);
         return company;
+    }
+    //자동완성 저장(회사명 저장)
+    public void addAutocompleteKeyword(String keyword){
+        this.trie.put(keyword,null);
+    }
+
+    //회사목록 리스트(회사명 조회)
+    public List<String> autocomplete(String keyword){
+       return (List<String>) this.trie.prefixMap(keyword).keySet()
+                .stream().limit(10).collect(Collectors.toList());
+    }
+
+    //trie 에 저장된 단어 삭제 기능
+    public void deleteAutocompleteKeyword(String keyword){
+        this.trie.remove(keyword);
     }
 }
