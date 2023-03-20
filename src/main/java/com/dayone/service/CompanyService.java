@@ -10,6 +10,7 @@ import com.dayone.Scraper.Scraper;
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.Trie;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -33,7 +34,7 @@ public class CompanyService {
         return this.storeCompanyAndDividend(ticker);
     }
 
-    public Page<CompanyEntity> getAllCompany(Pageable pageable){
+    public Page<CompanyEntity> getAllCompany(Pageable pageable) {
         return this.companyRepository.findAll(pageable);
     }
 
@@ -56,19 +57,28 @@ public class CompanyService {
         this.dividendRepository.saveAll(dividendEntities);
         return company;
     }
+
+    public List<String> getCompanyNamesByKeyword(String keyword) {
+        Pageable limit = PageRequest.of(0,10);
+        return this.companyRepository
+                .findByNameStartingWithIgnoreCase(keyword,limit)
+                .stream().map(CompanyEntity::getName)
+                .collect(Collectors.toList());
+    }
+
     //자동완성 저장(회사명 저장)
-    public void addAutocompleteKeyword(String keyword){
-        this.trie.put(keyword,null);
+    public void addAutocompleteKeyword(String keyword) {
+        this.trie.put(keyword, null);
     }
 
     //회사목록 리스트(회사명 조회)
-    public List<String> autocomplete(String keyword){
-       return (List<String>) this.trie.prefixMap(keyword).keySet()
+    public List<String> autocomplete(String keyword) {
+        return (List<String>) this.trie.prefixMap(keyword).keySet()
                 .stream().limit(10).collect(Collectors.toList());
     }
 
     //trie 에 저장된 단어 삭제 기능
-    public void deleteAutocompleteKeyword(String keyword){
+    public void deleteAutocompleteKeyword(String keyword) {
         this.trie.remove(keyword);
     }
 }
