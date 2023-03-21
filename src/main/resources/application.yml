@@ -19,6 +19,8 @@ spring:
     url: jdbc:h2:mem:dayone;DB_CLOSE_DELAY=-1
     username: sa
     password:
+  jwt:
+    secret: ZGF5b25lLXNwcmluZy1ib290LWRpdmlkZW5kLXByb2plY3QtdHV0b3JpYWwtand0LXNlY3JldC1rZXkK
 
   redis:
     host: localhost
