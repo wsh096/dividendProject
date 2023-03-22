@@ -33,6 +33,10 @@ public class MemberService implements UserDetailsService {
 
     }
     public MemberEntity authenticate(Auth.SignIn member){
+        var user = this.memberRepository.findByUsername(member.getUsername())
+                .orElseThrow(()->new RuntimeException("존재하지 않는 ID 입니다."));
+        if(!this.passwordEncoder.matches(member.getPassword(), user.getP))
+
         return null;
     }
 }
