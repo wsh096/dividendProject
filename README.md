@@ -1,5 +1,5 @@
 # Mission3
-API 인터페이스의 구조
+### API 인터페이스의 구조
 
 1. 배당금 조회기능
 <br> 추가 API 해당 회사 검색 엔진에
@@ -10,9 +10,16 @@ API 인터페이스의 구조
 3. 관리자 기능
 <br> 배당금 데이터 저장/삭제
 4. 회원 기능
-<br> TODO 회원 인증
+<br> Jwt(JavaScript web Token) HS512로 인증 토큰 구현
+<br> Read/write로 구분해 일반 회원과 관리자 회원 구현
 
-DB의 구현(H2를 활용)
+5. 캐시 구현
+<br> redis-server를 활용
+
+6. 기타
+   - 예외/로깅 처리
+
+### DB의 구현(H2를 활용)
 1. (테이블)회사
 - id(PK) Long autoIncrease
 - name String
