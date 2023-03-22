@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface CompanyRepository extends JpaRepository<CompanyEntity, Long> {
     boolean existsByTicker(String ticker);
     Optional<CompanyEntity> findByName(String name);//optional 로 감싸서 nullpointException 방지
-
+    Optional<CompanyEntity> findByTicker(String ticker);
     Page<CompanyEntity> findByNameStartingWithIgnoreCase(String s, Pageable pageable);
     //like 연산자를 활용한 자동완성 기능 만들기 예제
 

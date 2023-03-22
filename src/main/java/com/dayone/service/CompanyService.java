@@ -1,5 +1,6 @@
 package com.dayone.service;
 
+import com.dayone.Exception.impl.NoCompanyException;
 import com.dayone.model.Company;
 import com.dayone.model.ScrapedResult;
 import com.dayone.persist.entity.CompanyEntity;
@@ -80,5 +81,14 @@ public class CompanyService {
     //trie 에 저장된 단어 삭제 기능
     public void deleteAutocompleteKeyword(String keyword) {
         this.trie.remove(keyword);
+    }
+
+    public String deleteCompany(String ticker){
+        var company = this.companyRepository.findByTicker(ticker)
+                .orElseThrow(()->new NoCompanyException());
+        this.dividendRepository.deleteAllByCompanyId(company.getId());
+        this.companyRepository.delete(company);
+        this.deleteAutocompleteKeyword(company.getName());
+        return company.getName();
     }
 }

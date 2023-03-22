@@ -49,6 +49,7 @@ public class ScraperScheduler {
                                 e.getCompanyId(), e.getDate());
                         if (!exists) {
                             this.dividendRepository.save(e);
+                            log.info("insert new dividend -> " + e.toString());
                         }
                     });
             //연속적인 요청으로 인한 데이터 손실 발생 방지를 위한 sleep
